@@ -46,7 +46,7 @@ export default function CtaBanner() {
 
           <div className="flex flex-col sm:flex-row gap-3 max-w-[640px]">
             <a
-              href="https://wa.me/233XXXXXXXXX?text=Hi%2C+I%27d+like+to+bring+Khijani+to+my+school"
+              href="https://wa.me/233535378349?text=Hi%2C+I%27d+like+to+bring+Khijani+to+my+school"
               target="_blank"
               rel="noopener noreferrer"
               className="group flex flex-1 items-center justify-between gap-4 px-6 py-4 bg-paper text-ink transition-colors duration-200 hover:bg-gold"
@@ -57,10 +57,10 @@ export default function CtaBanner() {
               </span>
             </a>
             <a
-              href="mailto:hello@khijani.app"
+              href="mailto:khijaniafricaa@gmail.com"
               className="group flex flex-1 items-center justify-between gap-4 px-6 py-4 border border-paper/30 text-paper transition-colors duration-200 hover:border-paper hover:bg-paper/5"
             >
-              <span className="folio">hello@khijani.app</span>
+              <span className="folio">khijaniafricaa@gmail.com</span>
               <span className="font-display text-lg leading-none transition-transform duration-200 group-hover:translate-x-1">
                 →
               </span>
