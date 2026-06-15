@@ -1,10 +1,12 @@
 import { readFileSync } from "node:fs";
 import { join } from "node:path";
 
-// Canonical legal documents live in the repo-root `documents/` folder (single
-// source of truth, edited by counsel). They are read at build time and rendered
-// by the legal pages — never duplicated into the app.
-const DOCS_DIR = join(process.cwd(), "..", "documents");
+// The canonical legal documents live in the repo-root `documents/` folder. To
+// keep the app self-contained at build time (deploys may root at this subfolder,
+// where `../documents` is not present), the web-facing docs are synced into
+// `src/content/legal/` by `scripts/sync-legal.mjs` (run via the `prebuild`/
+// `predev` hooks). Read from there, not from outside the app root.
+const DOCS_DIR = join(process.cwd(), "src", "content", "legal");
 
 export type LegalSlug = "privacy" | "terms" | "cookies";
 

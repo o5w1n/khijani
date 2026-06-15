@@ -136,11 +136,14 @@ npm run build
 npm run start
 ```
 
-> **Monorepo note:** the legal pages (`/privacy`, `/terms`, `/cookies`) read Markdown
-> from the repo-root `documents/` folder at **build time**. Run the build from within
-> the cloned repo so `../documents` resolves. If you deploy this app standalone on a
-> platform like Vercel, set the project **root to the repository root** (not
-> `khijani-marketing`) so the `documents/` folder is present during the build.
+> **Legal docs:** the legal pages (`/privacy`, `/terms`, `/cookies`) render Markdown
+> that is committed inside the app at `src/content/legal/`, so the build is
+> self-contained and deploys cleanly even when the project root is set to
+> `khijani-marketing`. The canonical source lives in the repo-root `documents/`
+> folder; `npm run sync:legal` (also run automatically via `predev`/`prebuild`)
+> refreshes the in-app copies from it whenever `documents/` is reachable, and no-ops
+> when it isn't. After editing a policy in `documents/`, run `npm run sync:legal` and
+> commit the updated copies.
 
 No environment variables are required — this site has no backend.
 
