@@ -40,7 +40,7 @@ export default function Footer() {
               alt="Khijani Africa"
               width={200}
               height={111}
-              sizes="200px"
+              sizes="128px"
               className="h-12 w-auto mb-6"
             />
             <p className="text-[14px] italic text-ink-faint leading-[1.7] max-w-[210px] mb-7">

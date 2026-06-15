@@ -39,7 +39,7 @@ export default function Navbar() {
               alt="Khijani Africa"
               width={180}
               height={100}
-              sizes="180px"
+              sizes="128px"
               priority
               className="h-10 w-auto"
             />
@@ -96,7 +96,7 @@ export default function Navbar() {
                 alt="Khijani Africa"
                 width={180}
                 height={100}
-                sizes="180px"
+                sizes="128px"
                 className="h-10 w-auto"
               />
               <button
