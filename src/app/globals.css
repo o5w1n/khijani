@@ -1,0 +1,99 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --green: #1a6b3c;
+  --green-deep: #11482a;
+  --gold: #f5a623;
+  --terra: #c0623a;
+  --paper: #f7f3ea;
+  --paper-deep: #efe9db;
+  --ink: #181c18;
+  --ink-soft: #43493f;
+  --ink-faint: #767d70;
+  --rule: rgba(24, 28, 24, 0.16);
+  --rule-strong: rgba(24, 28, 24, 0.85);
+}
+
+body {
+  color: var(--ink-soft);
+  background: var(--paper);
+  font-family: var(--font-newsreader), Georgia, serif;
+}
+
+::selection {
+  background: rgba(245, 166, 35, 0.35);
+  color: var(--ink);
+}
+
+@layer utilities {
+  .font-display {
+    font-family: var(--font-fraunces), Georgia, serif;
+  }
+  .font-body {
+    font-family: var(--font-newsreader), Georgia, serif;
+  }
+  /* The signature: a single restrained kente-derived tricolor rule */
+  .kente-rule {
+    height: 3px;
+    background: linear-gradient(
+      to right,
+      var(--green) 0%,
+      var(--green) 55%,
+      var(--gold) 55%,
+      var(--gold) 80%,
+      var(--terra) 80%,
+      var(--terra) 100%
+    );
+  }
+  .hairline-t {
+    border-top: 1px solid var(--rule);
+  }
+  .hairline-b {
+    border-bottom: 1px solid var(--rule);
+  }
+  /* Folio meta label: small caps mono used for datelines & section markers */
+  .folio {
+    font-family: var(--font-mono), monospace;
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.24em;
+    text-transform: uppercase;
+  }
+  .dropcap::first-letter {
+    font-family: var(--font-fraunces), Georgia, serif;
+    font-weight: 600;
+    float: left;
+    font-size: 3.4em;
+    line-height: 0.82;
+    padding-right: 0.12em;
+    padding-top: 0.06em;
+    color: var(--green);
+  }
+  .text-balance {
+    text-wrap: balance;
+  }
+  .bg-noise {
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.15'/%3E%3C/svg%3E");
+    pointer-events: none;
+  }
+}
+
+@layer base {
+  * {
+    box-sizing: border-box;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+}
