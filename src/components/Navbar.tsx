@@ -37,8 +37,9 @@ export default function Navbar() {
             <Image
               src="/images/logo/on-green.png"
               alt="Khijani Africa"
-              width={5052}
-              height={2799}
+              width={180}
+              height={100}
+              sizes="180px"
               priority
               className="h-10 w-auto"
             />
@@ -93,8 +94,9 @@ export default function Navbar() {
               <Image
                 src="/images/logo/on-green.png"
                 alt="Khijani Africa"
-                width={5022}
-                height={2769}
+                width={180}
+                height={100}
+                sizes="180px"
                 className="h-10 w-auto"
               />
               <button

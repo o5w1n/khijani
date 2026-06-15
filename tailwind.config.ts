@@ -26,7 +26,7 @@ const config: Config = {
         ink: {
           DEFAULT: "#181c18",
           soft: "#43493f",
-          faint: "#767d70",
+          faint: "#656b60",
         },
         paper: {
           DEFAULT: "#f7f3ea",

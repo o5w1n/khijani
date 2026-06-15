@@ -38,8 +38,9 @@ export default function Footer() {
             <Image
               src="/images/logo/on-green.png"
               alt="Khijani Africa"
-              width={5022}
-              height={2769}
+              width={200}
+              height={111}
+              sizes="200px"
               className="h-12 w-auto mb-6"
             />
             <p className="text-[14px] italic text-ink-faint leading-[1.7] max-w-[210px] mb-7">
