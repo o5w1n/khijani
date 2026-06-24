@@ -137,13 +137,12 @@ npm run start
 ```
 
 > **Legal docs:** the legal pages (`/privacy`, `/terms`, `/cookies`) render Markdown
-> that is committed inside the app at `src/content/legal/`, so the build is
-> self-contained and deploys cleanly even when the project root is set to
-> `khijani-marketing`. The canonical source lives in the repo-root `documents/`
-> folder; `npm run sync:legal` (also run automatically via `predev`/`prebuild`)
-> refreshes the in-app copies from it whenever `documents/` is reachable, and no-ops
-> when it isn't. After editing a policy in `documents/`, run `npm run sync:legal` and
-> commit the updated copies.
+> committed inside the app at `src/content/legal/`, so the build is self-contained
+> and deploys cleanly even when the project root is set to `khijani-marketing`.
+> These are the **public, curated** versions of the policies, intentionally lighter
+> than the full internal set in the repo-root `documents/` folder — so they are
+> maintained by hand here and are **not** auto-synced from `documents/`. Edit them
+> directly and commit.
 
 No environment variables are required — this site has no backend.
 

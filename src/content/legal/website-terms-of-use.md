@@ -1,10 +1,10 @@
 # Website Terms of Use
 
-**Last updated: [EFFECTIVE DATE]** · Version 1.0
+**Last updated: 15th June, 2026** · Version 1.0
 
 These Terms of Use ("Terms") govern your access to and use of the Khijani marketing
 website at **[WEBSITE URL]** and any related public pages (the "Website"), operated
-by **[LEGAL ENTITY NAME]** ("Khijani", "we", "us", "our").
+by **KHIJANI COGNITIVE SYSTEMS** ("Khijani", "we", "us", "our").
 
 By accessing or using the Website, you agree to these Terms. If you do not agree,
 please do not use the Website.
@@ -81,12 +81,12 @@ updated Terms.
 
 ## 9. Governing law
 
-These Terms are governed by the laws of **[GOVERNING LAW COUNTRY]** (default: Ghana),
-and the courts of **[COURTS / CITY]** have jurisdiction over any dispute, subject to
+These Terms are governed by the laws of **GHANA**,
+and the courts of **GHANA** have jurisdiction over any dispute, subject to
 any mandatory rights you have under local law.
 
 ## 10. Contact
 
 - Email: **[CONTACT EMAIL]**
 - WhatsApp: +233 535 378 349
-- Post: [LEGAL ENTITY NAME], [REGISTERED ADDRESS]
+- Post: KHIJANI COGNITIVE SYSTEMS LIMITED, [REGISTERED ADDRESS]

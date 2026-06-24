@@ -1,11 +1,11 @@
 # Privacy Policy
 
-**Last updated: [EFFECTIVE DATE]** · Version 1.0
+**Last updated: 15th June, 2026** · Version 1.0
 
-This Privacy Policy explains how **[LEGAL ENTITY NAME]** ("Khijani", "we", "us",
+This Privacy Policy explains how **KHIJANI COGNITIVE SYSTEMS LIMITED** ("Khijani", "we", "us",
 "our") collects, uses, shares, and protects personal data across the Khijani
-platform — our marketing website ([WEBSITE URL]), our teacher and administrator
-portal ([PORTAL URL]), and our student app ([APP URL]) (together, the "Platform").
+platform — our marketing website, our teacher and administrator
+portal, and our student app (together, the "Platform").
 
 We are committed to handling personal data lawfully, fairly, and transparently in
 accordance with **Ghana's Data Protection Act, 2012 (Act 843)** and the applicable
@@ -33,9 +33,7 @@ operate.
 
 - **For student personal data**, the **school** that enrols the student is the
   **data controller**. Khijani acts as the school's **data processor** and only
-  processes student data on the school's documented instructions. The terms of
-  that relationship are set out in our
-  [Data Processing Agreement](data-processing-agreement.md).
+  processes student data on the school's documented instructions.
 - **For teacher, administrator, school-contact, and website-visitor data**, and
   for our own business and product-improvement purposes, Khijani is the **data
   controller**.
@@ -117,9 +115,8 @@ build commercial profiles.
 We share personal data only as needed:
 
 - **With the school** that controls the relevant student data.
-- **With service providers (sub-processors)** who host and run the Platform under
-  contract and on our instructions — see the sub-processor list in the
-  [Data Processing Agreement](data-processing-agreement.md).
+- **With trusted service providers** who help us host and operate the Platform
+  under contract and only on our instructions.
 - **For legal reasons** — where required by law, regulation, court order, or a
   lawful request from a competent authority.
 - **In a business transfer** — if Khijani is involved in a merger, acquisition, or
@@ -150,7 +147,7 @@ We keep personal data only as long as necessary for the purposes above:
   accounting purposes.
 
 On termination of a school's subscription, we delete or return student data in
-line with the [Data Processing Agreement](data-processing-agreement.md).
+line with our agreement with the school.
 
 ## 8. How we protect data
 

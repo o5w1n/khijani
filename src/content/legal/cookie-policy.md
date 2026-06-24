@@ -1,11 +1,9 @@
 # Cookie Policy
 
-**Last updated: [EFFECTIVE DATE]** · Version 1.0
+**Last updated: 15th June, 2026** · Version 1.0
 
-This Cookie Policy explains how **[LEGAL ENTITY NAME]** ("Khijani") uses cookies and
-similar technologies across the Khijani platform — the marketing website
-([WEBSITE URL]), the teacher/admin portal ([PORTAL URL]), and the student app
-([APP URL]). It should be read together with our [Privacy Policy](privacy-policy.md).
+This Cookie Policy explains how **KHIJANI COGNITIVE SYSTEMS LIMITED** ("Khijani") uses cookies and
+similar technologies across the Khijani platform — the marketing website, the teacher/admin portal, and the student app. It should be read together with our [Privacy Policy](privacy-policy.md).
 
 ---
 
@@ -20,7 +18,7 @@ sites function, remember preferences, keep you signed in, and understand usage.
 ### Marketing website ([WEBSITE URL])
 - **Strictly necessary** — for core site functionality and security.
 - **Analytics** (if enabled) — to understand how visitors use the site so we can
-  improve it. [CONFIRM whether an analytics tool is in use; if so, name it.]
+  improve it.
 
 ### Teacher/admin portal ([PORTAL URL])
 - **Strictly necessary** — authentication and session cookies that keep teachers and
@@ -45,11 +43,9 @@ collected via cookies.
 
 ## 4. Third-party cookies
 
-Some cookies may be set by service providers acting on our behalf (for example,
-hosting or analytics). These providers are described in our
-[Privacy Policy](privacy-policy.md) and, for school data, the
-[Data Processing Agreement](data-processing-agreement.md). [List any third parties
-that set cookies once confirmed.]
+Some cookies may be set by trusted service providers acting on our behalf (for
+example, hosting or analytics), as described in our
+[Privacy Policy](privacy-policy.md).
 
 ## 5. Your choices
 
@@ -66,12 +62,3 @@ applies from its "Last updated" date.
 ## 7. Contact
 
 Questions about cookies: **[PRIVACY EMAIL]**.
-
----
-
-> **Implementation note (remove before publishing):** Confirm the actual cookies and
-> technologies in use on each surface — check the marketing site, Supabase
-> auth/session cookies in the portal, and any analytics added later — then list the
-> specific cookie names, providers, and durations. A cookie scan should be run before
-> this policy is published, and a consent banner added to the website if any
-> non-essential cookies are used.
