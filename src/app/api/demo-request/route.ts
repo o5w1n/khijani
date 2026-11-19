@@ -73,7 +73,7 @@ async function notifyTeam(req: DemoRequest, resendKey: string, to: string): Prom
     headers: { Authorization: `Bearer ${resendKey}`, "Content-Type": "application/json" },
     body: JSON.stringify({
       from: "Khijani Website <noreply@khijani.africa>",
-      to: [to],
+      to: to.split(",").map((addr) => addr.trim()).filter(Boolean),
       reply_to: req.email,
       subject: `Demo request: ${req.school_name} (${req.country})`.replace(/\s+/g, " "),
       text,
