@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { PORTAL_LOGIN_URL, STUDENT_APP_URL } from "@/lib/site";
+import { PORTAL_LOGIN_URL } from "@/lib/site";
 
 const footerLinks: Record<string, { label: string; href: string }[]> = {
   Product: [
@@ -7,8 +7,8 @@ const footerLinks: Record<string, { label: string; href: string }[]> = {
     { label: "Conundrums", href: "/#conundrums" },
     { label: "Khijani Index", href: "/#how-it-works" },
     { label: "Pricing", href: "/#pricing" },
-    { label: "Join a class", href: STUDENT_APP_URL },
-    { label: "Teacher & admin login", href: PORTAL_LOGIN_URL },
+    { label: "Request a demo", href: "/demo" },
+    { label: "Log in", href: PORTAL_LOGIN_URL },
   ],
   Resources: [
     { label: "Teacher Guide", href: "/#how-it-works" },

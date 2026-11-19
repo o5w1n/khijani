@@ -99,10 +99,10 @@ export default function Hero() {
               </span>
             </a>
             <a
-              href="#pricing"
+              href="/demo"
               className="group flex items-center justify-between px-6 py-4 border border-ink text-ink transition-colors duration-200 hover:bg-ink hover:text-paper"
             >
-              <span className="folio">For Schools</span>
+              <span className="folio">Request a Demo</span>
               <span className="font-display text-lg leading-none transition-transform duration-200 group-hover:translate-x-1">
                 →
               </span>
