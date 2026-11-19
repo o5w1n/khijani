@@ -4,13 +4,14 @@ import { useState, useEffect } from "react";
 import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
 import { X, Menu } from "lucide-react";
+import { PORTAL_LOGIN_URL } from "@/lib/site";
 
 const navLinks = [
-  { label: "The Method", href: "#how-it-works" },
-  { label: "The Briefs", href: "#conundrums" },
-  { label: "Gallery", href: "#journey" },
-  { label: "For Schools", href: "#pricing" },
-  { label: "Questions", href: "#faq" },
+  { label: "The Method", href: "/#how-it-works" },
+  { label: "The Briefs", href: "/#conundrums" },
+  { label: "Gallery", href: "/#journey" },
+  { label: "For Schools", href: "/#pricing" },
+  { label: "Questions", href: "/#faq" },
 ];
 
 export default function Navbar() {
@@ -59,12 +60,15 @@ export default function Navbar() {
           </nav>
 
           {/* CTA */}
-          <div className="hidden md:flex items-center">
+          <div className="hidden md:flex items-center gap-6">
+            <a href={PORTAL_LOGIN_URL} className="folio text-ink-soft hover:text-terra transition-colors duration-200">
+              Log in
+            </a>
             <a
-              href="#pricing"
+              href="/demo"
               className="folio px-5 py-2.5 border border-ink text-ink transition-colors duration-200 hover:bg-ink hover:text-paper"
             >
-              Get Started
+              Request a demo
             </a>
           </div>
 
@@ -137,12 +141,15 @@ export default function Navbar() {
               transition={{ delay: 0.35, duration: 0.4 }}
               className="mt-auto"
             >
+              <a href={PORTAL_LOGIN_URL} className="block w-full text-center folio py-4 mb-3 border border-ink text-ink">
+                Log in
+              </a>
               <a
-                href="#pricing"
+                href="/demo"
                 onClick={() => setOpen(false)}
                 className="block w-full text-center folio py-4 bg-ink text-paper"
               >
-                Get Started
+                Request a demo
               </a>
             </motion.div>
           </motion.div>

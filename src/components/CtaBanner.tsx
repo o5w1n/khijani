@@ -46,12 +46,10 @@ export default function CtaBanner() {
 
           <div className="flex flex-col sm:flex-row gap-3 max-w-[640px]">
             <a
-              href="https://wa.me/233535378349?text=Hi%2C+I%27d+like+to+bring+Khijani+to+my+school"
-              target="_blank"
-              rel="noopener noreferrer"
+              href="/demo"
               className="group flex flex-1 items-center justify-between gap-4 px-6 py-4 bg-paper text-ink transition-colors duration-200 hover:bg-gold"
             >
-              <span className="folio">Message Us on WhatsApp</span>
+              <span className="folio">Request a Demo</span>
               <span className="font-display text-lg leading-none transition-transform duration-200 group-hover:translate-x-1">
                 →
               </span>

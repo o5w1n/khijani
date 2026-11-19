@@ -81,9 +81,7 @@ export default function PricingBento() {
             </ul>
 
             <a
-              href="https://wa.me/233XXXXXXXXX?text=Hi%2C+I%27d+like+to+pilot+Khijani+in+my+classroom"
-              target="_blank"
-              rel="noopener noreferrer"
+              href="/demo"
               className="group flex items-center justify-between px-6 py-4 border border-ink text-ink transition-colors duration-200 hover:bg-ink hover:text-paper"
             >
               <span className="folio">Start a Pilot</span>
@@ -131,12 +129,10 @@ export default function PricingBento() {
             </ul>
 
             <a
-              href="https://wa.me/233535378349?text=Hi%2C+I%27d+like+to+enquire+about+Khijani+for+our+school"
-              target="_blank"
-              rel="noopener noreferrer"
+              href="/demo"
               className="group flex items-center justify-between px-6 py-4 bg-green text-paper transition-colors duration-200 hover:bg-green-deep"
             >
-              <span className="folio">Contact Us</span>
+              <span className="folio">Request a Demo</span>
               <span className="font-display text-lg leading-none transition-transform duration-200 group-hover:translate-x-1">
                 →
               </span>
