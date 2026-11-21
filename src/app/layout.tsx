@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Fraunces, Newsreader, JetBrains_Mono } from "next/font/google";
+import MotionProvider from "@/components/MotionProvider";
 import "./globals.css";
 import { SITE_NAME, SITE_TITLE, SITE_URL } from "@/lib/site";
 
@@ -61,7 +62,13 @@ export default function RootLayout({
       <body
         className={`${fraunces.variable} ${newsreader.variable} ${jetbrainsMono.variable} font-body antialiased`}
       >
-        {children}
+        <a
+          href="#main-content"
+          className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[200] focus:bg-green focus:px-4 focus:py-3 focus:font-mono focus:text-[14px] focus:font-semibold focus:text-paper focus:shadow-lg"
+        >
+          Skip to main content
+        </a>
+        <MotionProvider>{children}</MotionProvider>
       </body>
     </html>
   );

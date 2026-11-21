@@ -23,7 +23,7 @@ export default function OpengraphImage() {
           fontFamily: "Georgia, serif",
         }}
       >
-        <div style={{ display: "flex", fontSize: 30, letterSpacing: 6, color: "#c0623a", textTransform: "uppercase" }}>
+        <div style={{ display: "flex", fontSize: 30, letterSpacing: 6, color: "#a15231", textTransform: "uppercase" }}>
           Khijani Africa
         </div>
         <div style={{ display: "flex", flexDirection: "column" }}>

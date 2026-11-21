@@ -18,10 +18,12 @@ const config: Config = {
         gold: {
           DEFAULT: "#f5a623",
           dark: "#c47d10",
+          ink: "var(--gold-ink)",
         },
         terra: {
           DEFAULT: "#c0623a",
           dark: "#a04d2b",
+          ink: "var(--terra-ink)",
         },
         ink: {
           DEFAULT: "#181c18",
@@ -32,7 +34,10 @@ const config: Config = {
           DEFAULT: "#f7f3ea",
           deep: "#efe9db",
         },
-        rule: "rgba(24, 28, 24, 0.16)",
+        rule: {
+          DEFAULT: "rgba(24, 28, 24, 0.16)",
+          control: "var(--rule-control)",
+        },
       },
       fontFamily: {
         display: ["var(--font-fraunces)", "Georgia", "serif"],

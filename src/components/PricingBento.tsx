@@ -1,152 +1,143 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { Reveal } from "@/components/Reveal";
 
-const pilotFeatures = [
-  "One class, up to 60 students",
-  "Full 4-phase student flow",
-  "Full Khijani Index scoring",
-  "Up to 3 conundrums for the term",
-  "Full term of session history",
+const singleClassPoints = [
+  "One class using KH- four-digit student codes",
+  "Full library of African conundrums & Cascade Games",
+  "Automatic 6-dimension Khijani Index scoring",
+  "Live teacher session monitor & class vote reveal",
+  "Guided onboarding and first-session walkthrough",
 ];
 
-const customFeatures = [
-  "Unlimited conundrums",
-  "Advanced Khijani Index (all 5 dimensions)",
-  "Unlimited students across classes",
-  "Class-wide reasoning analytics",
-  "Student growth tracking over time",
-  "Priority support",
-  "Custom conundrum builder",
+const wholeSchoolPoints = [
+  "Multiple classes across departments and year groups",
+  "Student growth tracking across all 6 Index dimensions",
+  "School admin analytics & teacher onboarding portal",
+  "Printable student code cards & class progress reports",
+  "Support for custom school scenarios & dedicated setup",
 ];
-
-const EASE: [number, number, number, number] = [0.23, 1, 0.32, 1];
 
 export default function PricingBento() {
   return (
-    <section id="pricing" className="bg-paper py-24 md:py-32">
+    <section id="for-schools" className="bg-paper py-24 md:py-32">
       <div className="max-w-[1280px] mx-auto px-6 md:px-10">
         {/* Header */}
-        <motion.div
-          initial={{ opacity: 0, y: 24 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-60px" }}
-          transition={{ duration: 0.65, ease: EASE }}
-          className="pb-6 hairline-b mb-14"
-        >
+        <Reveal margin="-60px" className="pb-6 hairline-b mb-14">
           <p className="folio text-green mb-4">§ 5 — For Schools</p>
           <h2
             className="font-display font-bold text-ink leading-[1.05] max-w-2xl text-balance"
             style={{ fontSize: "clamp(32px, 4.5vw, 52px)" }}
           >
             Start with one class.{" "}
-            <span className="italic font-medium">Scale when it works.</span>
+            <span className="italic font-medium">Scale across your school.</span>
           </h2>
-        </motion.div>
+        </Reveal>
 
         {/* Two ruled columns */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-12 md:gap-0 md:divide-x divide-[rgba(24,28,24,0.16)] max-w-[980px]">
-          {/* Pilot */}
-          <motion.div
-            initial={{ opacity: 0, y: 28 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-30px" }}
-            transition={{ duration: 0.65, ease: EASE }}
+          {/* Single Class */}
+          <Reveal
+            y={28}
+            margin="-30px"
             className="flex flex-col md:pr-14"
           >
-            <p className="folio text-ink-faint mb-7">For a single class</p>
-            <p
+            <p className="folio text-ink-faint mb-7">For one classroom</p>
+            <h3
               className="font-display font-black text-ink leading-none mb-4"
-              style={{ fontSize: "clamp(52px, 6vw, 72px)" }}
+              style={{ fontSize: "clamp(40px, 5vw, 60px)" }}
             >
-              Pilot
-            </p>
+              One Class
+            </h3>
             <p className="text-[16px] italic text-ink-faint mb-9 leading-[1.65]">
-              Run a full term of critical-thinking sessions with one class —
-              see the Index move before you commit.
+              See Khijani run in a single classroom this term — watch students
+              argue real dilemmas before rolling out further.
             </p>
 
             <ul className="hairline-t mb-10 flex-1">
-              {pilotFeatures.map((f) => (
+              {singleClassPoints.map((item) => (
                 <li
-                  key={f}
-                  className="flex items-baseline gap-4 py-3.5 hairline-b text-[15px] text-ink-soft"
+                  key={item}
+                  className="flex items-baseline gap-4 py-3.5 hairline-b text-[16px] text-ink-soft"
                 >
                   <span className="folio text-green" aria-hidden="true">
                     ·
                   </span>
-                  {f}
+                  {item}
                 </li>
               ))}
             </ul>
 
             <a
               href="/demo"
-              className="group flex items-center justify-between px-6 py-4 border border-ink text-ink transition-colors duration-200 hover:bg-ink hover:text-paper"
+              className="group flex min-h-[48px] items-center justify-between px-6 py-4 border border-ink text-ink transition-colors duration-200 hover:bg-ink hover:text-paper"
             >
-              <span className="folio">Start a Pilot</span>
-              <span className="font-display text-lg leading-none transition-transform duration-200 group-hover:translate-x-1">
+              <span className="font-mono text-[14px] font-semibold uppercase tracking-[0.1em]">
+                Request a Demo
+              </span>
+              <span className="font-display text-lg leading-none transition-transform duration-200 group-hover:translate-x-1" aria-hidden="true">
                 →
               </span>
             </a>
-          </motion.div>
+          </Reveal>
 
-          {/* Custom */}
-          <motion.div
-            initial={{ opacity: 0, y: 28 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-30px" }}
-            transition={{ duration: 0.65, delay: 0.1, ease: EASE }}
+          {/* Whole School */}
+          <Reveal
+            y={28}
+            delay={0.1}
+            margin="-30px"
             className="flex flex-col md:pl-14"
           >
-            <div className="flex items-baseline justify-between mb-7">
+            <div className="flex items-baseline justify-between gap-4 mb-7">
               <p className="folio text-ink-faint">School-wide</p>
-              <span className="folio text-terra">School Plan</span>
+              <span className="folio text-terra-ink">Institutional Setup</span>
             </div>
-            <p
+            <h3
               className="font-display font-black text-ink leading-none mb-4"
-              style={{ fontSize: "clamp(52px, 6vw, 72px)" }}
+              style={{ fontSize: "clamp(40px, 5vw, 60px)" }}
             >
-              Custom
-            </p>
+              Whole School
+            </h3>
             <p className="text-[16px] italic text-ink-faint mb-9 leading-[1.65]">
-              Institution-wide deployment with full analytics, training, and
-              dedicated account management.
+              Department-wide onboarding with school-level Index analytics,
+              teacher invites, and dedicated support.
             </p>
 
             <ul className="hairline-t mb-10 flex-1">
-              {customFeatures.map((f) => (
+              {wholeSchoolPoints.map((item) => (
                 <li
-                  key={f}
-                  className="flex items-baseline gap-4 py-3.5 hairline-b text-[15px] text-ink-soft"
+                  key={item}
+                  className="flex items-baseline gap-4 py-3.5 hairline-b text-[16px] text-ink-soft"
                 >
-                  <span className="folio text-terra" aria-hidden="true">
+                  <span className="folio text-terra-ink" aria-hidden="true">
                     ·
                   </span>
-                  {f}
+                  {item}
                 </li>
               ))}
             </ul>
 
             <a
               href="/demo"
-              className="group flex items-center justify-between px-6 py-4 bg-green text-paper transition-colors duration-200 hover:bg-green-deep"
+              className="group flex min-h-[48px] items-center justify-between px-6 py-4 bg-green text-paper transition-colors duration-200 hover:bg-green-deep"
             >
-              <span className="folio">Request a Demo</span>
-              <span className="font-display text-lg leading-none transition-transform duration-200 group-hover:translate-x-1">
+              <span className="font-mono text-[14px] font-semibold uppercase tracking-[0.1em]">
+                Request a Demo
+              </span>
+              <span className="font-display text-lg leading-none transition-transform duration-200 group-hover:translate-x-1" aria-hidden="true">
                 →
               </span>
             </a>
-          </motion.div>
+          </Reveal>
         </div>
 
-        <p className="mt-10 text-[15px] italic text-ink-faint">
-          Not sure which fits?{" "}
+        <p className="mt-10 text-[16px] italic text-ink-faint">
+          Have a quick question before booking?{" "}
           <a
             href="https://wa.me/233535378349"
             target="_blank"
             rel="noopener noreferrer"
-            className="text-green underline underline-offset-4 decoration-green/40 hover:decoration-green"
+            className="inline-flex min-h-[40px] items-center text-[16px] font-medium text-green underline underline-offset-4 decoration-green/50 hover:text-terra-ink hover:decoration-terra-ink transition-colors"
           >
             Message us on WhatsApp
           </a>

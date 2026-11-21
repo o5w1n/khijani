@@ -1,12 +1,15 @@
 "use client";
 
-import { useState, useEffect } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { useState, useEffect, useRef } from "react";
+import Image from "next/image";
+import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
+import { Reveal } from "@/components/Reveal";
 
 interface Media {
   type: "image" | "video";
   src: string;
   caption: string;
+  captionsSrc?: string;
 }
 
 interface Chapter {
@@ -18,36 +21,32 @@ interface Chapter {
   media: Media[];
 }
 
-/*
- * Swap the Unsplash placeholders for real pilot photos:
- * drop files in public/images/journey/ and point src at "/images/journey/...".
- */
 const chapters: Chapter[] = [
   {
     num: "01",
     title: "First Pilot",
     period: "Accra",
     blurb: "The first classroom. The first vote. The day the idea became real.",
-    cover: "/images/Pilot%201/1.jpg",
+    cover: "/images/Pilot 1/1.jpg",
     media: [
       {
         type: "image",
-        src: "/images/Pilot%201/2.jpg",
+        src: "/images/Pilot 1/2.jpg",
         caption: "Students reading the opening scenario",
       },
       {
         type: "image",
-        src: "/images/Pilot%201/3.jpg",
+        src: "/images/Pilot 1/3.jpg",
         caption: "The first stakeholder debate",
       },
       {
         type: "image",
-        src: "/images/Pilot%201/4.jpg",
+        src: "/images/Pilot 1/4.jpg",
         caption: "Vote phase — hands up for position two",
       },
       {
         type: "image",
-        src: "/images/Pilot%201/5.jpg",
+        src: "/images/Pilot 1/5.jpg",
         caption: "After the session",
       },
     ],
@@ -58,21 +57,21 @@ const chapters: Chapter[] = [
     period: "Returning, sharper",
     blurb:
       "New conundrums, a tighter flow, and the first cohort to see their Index grow.",
-    cover: "/images/Pilot%202/cover.jpg",
+    cover: "/images/Pilot 2/cover.jpg",
     media: [
       {
         type: "image",
-        src: "/images/Pilot%202/1.jpg",
+        src: "/images/Pilot 2/1.jpg",
         caption: "Round two — a full classroom session",
       },
       {
         type: "image",
-        src: "/images/Pilot%202/2.jpg",
+        src: "/images/Pilot 2/2.jpg",
         caption: "Teachers reviewing class-wide patterns",
       },
       {
         type: "image",
-        src: "/images/Pilot%202/3.jpg",
+        src: "/images/Pilot 2/3.jpg",
         caption: "Reflection phase, in writing",
       },
     ],
@@ -83,26 +82,26 @@ const chapters: Chapter[] = [
     period: "Nationals",
     blurb:
       "Khijani on the national stage: pitching a thinking classroom for the continent.",
-    cover: "/images/Hult%20prize/cover.jpg",
+    cover: "/images/Hult prize/cover.jpg",
     media: [
       {
         type: "image",
-        src: "/images/Hult%20prize/1.jpg",
+        src: "/images/Hult prize/1.jpg",
         caption: "On stage at nationals",
       },
       {
         type: "image",
-        src: "/images/Hult%20prize/2.jpg",
+        src: "/images/Hult prize/2.jpg",
         caption: "The pitch",
       },
       {
         type: "image",
-        src: "/images/Hult%20prize/3.jpg",
+        src: "/images/Hult prize/3.jpg",
         caption: "The team, after",
       },
       {
         type: "image",
-        src: "/images/Hult%20prize/4.jpg",
+        src: "/images/Hult prize/4.jpg",
         caption: "Post-pitch celebrations",
       },
     ],
@@ -118,21 +117,53 @@ function ChapterOverlay({
   chapter: Chapter;
   onClose: () => void;
 }) {
+  const reduced = useReducedMotion();
+  const dialogRef = useRef<HTMLDivElement>(null);
+  const closeBtnRef = useRef<HTMLButtonElement>(null);
+
   useEffect(() => {
+    const prevOverflow = document.body.style.overflow;
     document.body.style.overflow = "hidden";
-    const onKey = (e: KeyboardEvent) => e.key === "Escape" && onClose();
-    window.addEventListener("keydown", onKey);
+    closeBtnRef.current?.focus();
+
+    const onKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape") {
+        e.preventDefault();
+        onClose();
+        return;
+      }
+      if (e.key === "Tab" && dialogRef.current) {
+        const focusables = Array.from(
+          dialogRef.current.querySelectorAll<HTMLElement>(
+            'a[href], button:not([disabled]), [tabindex]:not([tabindex="-1"])'
+          )
+        );
+        if (!focusables.length) return;
+        const first = focusables[0];
+        const last = focusables[focusables.length - 1];
+        if (e.shiftKey && document.activeElement === first) {
+          e.preventDefault();
+          last.focus();
+        } else if (!e.shiftKey && document.activeElement === last) {
+          e.preventDefault();
+          first.focus();
+        }
+      }
+    };
+
+    window.addEventListener("keydown", onKeyDown);
     return () => {
-      document.body.style.overflow = "";
-      window.removeEventListener("keydown", onKey);
+      document.body.style.overflow = prevOverflow;
+      window.removeEventListener("keydown", onKeyDown);
     };
   }, [onClose]);
 
   return (
     <motion.div
-      initial={{ opacity: 0 }}
+      ref={dialogRef}
+      initial={reduced ? false : { opacity: 0 }}
       animate={{ opacity: 1 }}
-      exit={{ opacity: 0 }}
+      exit={reduced ? undefined : { opacity: 0 }}
       transition={{ duration: 0.3 }}
       className="fixed inset-0 z-[110] bg-paper overflow-y-auto"
       role="dialog"
@@ -155,14 +186,19 @@ function ChapterOverlay({
             </h3>
           </div>
           <button
+            ref={closeBtnRef}
+            type="button"
             onClick={onClose}
-            className="group flex items-center gap-3 shrink-0 pb-2"
+            className="group inline-flex min-h-[44px] items-center gap-3 shrink-0 px-2"
             aria-label="Close chapter"
           >
-            <span className="folio text-ink-faint group-hover:text-ink transition-colors">
+            <span className="font-mono text-[14px] font-semibold uppercase tracking-[0.1em] text-ink-soft group-hover:text-ink transition-colors">
               Close
             </span>
-            <span className="font-display text-3xl leading-none text-ink rotate-45 inline-block transition-transform duration-300 group-hover:rotate-[135deg]">
+            <span
+              className="font-display text-3xl leading-none text-ink rotate-45 inline-block transition-transform duration-300 group-hover:rotate-[135deg]"
+              aria-hidden="true"
+            >
               +
             </span>
           </button>
@@ -177,7 +213,7 @@ function ChapterOverlay({
           {chapter.media.map((m, i) => (
             <motion.figure
               key={m.src}
-              initial={{ opacity: 0, y: 24 }}
+              initial={reduced ? false : { opacity: 0, y: 24 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.1 + i * 0.08, ease: EASE }}
               className={i % 3 === 0 ? "md:col-span-2" : ""}
@@ -188,15 +224,25 @@ function ChapterOverlay({
                   controls
                   playsInline
                   className="w-full aspect-video object-cover bg-ink"
-                />
+                >
+                  <track kind="captions" src={m.captionsSrc} label="English" />
+                </video>
               ) : (
-                // eslint-disable-next-line @next/next/no-img-element
-                <img
-                  src={m.src}
-                  alt={m.caption}
-                  className="w-full aspect-video object-cover bg-paper-deep"
-                  loading="lazy"
-                />
+                <div className="relative w-full aspect-video overflow-hidden bg-paper-deep">
+                  <Image
+                    src={m.src}
+                    alt={m.caption}
+                    fill
+                    priority={i === 0}
+                    quality={75}
+                    sizes={
+                      i % 3 === 0
+                        ? "(max-width: 768px) 100vw, 1200px"
+                        : "(max-width: 768px) 100vw, 580px"
+                    }
+                    className="object-cover"
+                  />
+                </div>
               )}
               <figcaption className="flex items-baseline justify-between gap-4 pt-3 hairline-t mt-0 border-t-0">
                 <span className="text-[14px] italic text-ink-faint">
@@ -217,21 +263,31 @@ function ChapterOverlay({
 export default function JourneyGallery() {
   const [hovered, setHovered] = useState<number | null>(null);
   const [openChapter, setOpenChapter] = useState<number | null>(null);
+  const lastOpenerRef = useRef<HTMLButtonElement | null>(null);
 
   const colSizes =
     hovered === null
       ? "1fr 1fr 1fr"
       : [0, 1, 2].map((c) => (c === hovered ? "1.9fr" : "1fr")).join(" ");
 
+  function openDialog(idx: number, opener: HTMLButtonElement) {
+    lastOpenerRef.current = opener;
+    setOpenChapter(idx);
+  }
+
+  function closeDialog() {
+    setOpenChapter(null);
+    requestAnimationFrame(() => {
+      lastOpenerRef.current?.focus();
+    });
+  }
+
   return (
     <section id="journey" className="bg-paper py-24 md:py-32">
       <div className="max-w-[1280px] mx-auto px-6 md:px-10">
         {/* Department header */}
-        <motion.div
-          initial={{ opacity: 0, y: 24 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-60px" }}
-          transition={{ duration: 0.65, ease: EASE }}
+        <Reveal
+          margin="-60px"
           className="flex items-end justify-between gap-6 pb-6 hairline-b mb-12"
         >
           <div>
@@ -247,16 +303,13 @@ export default function JourneyGallery() {
           <span className="folio text-ink-faint hidden md:block shrink-0 pb-2">
             From the field
           </span>
-        </motion.div>
+        </Reveal>
 
         {/* Chapter covers — expanding bento row on desktop, stacked on mobile */}
-        <motion.div
-          initial={{ opacity: 0, y: 28 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-40px" }}
-          transition={{ duration: 0.7, ease: EASE }}
+        <Reveal
+          y={28}
+          duration={0.7}
           className="grid grid-cols-1 md:grid-cols-none gap-3 md:h-[480px]"
-          style={{ gridTemplateColumns: undefined }}
         >
           <div
             className="hidden md:grid gap-3 h-full"
@@ -271,7 +324,7 @@ export default function JourneyGallery() {
                 chapter={ch}
                 isHovered={hovered === i}
                 onHover={(h) => setHovered(h ? i : null)}
-                onOpen={() => setOpenChapter(i)}
+                onOpen={(btn) => openDialog(i, btn)}
               />
             ))}
           </div>
@@ -284,16 +337,19 @@ export default function JourneyGallery() {
                   chapter={ch}
                   isHovered={false}
                   onHover={() => {}}
-                  onOpen={() => setOpenChapter(i)}
+                  onOpen={(btn) => openDialog(i, btn)}
                 />
               </div>
             ))}
           </div>
-        </motion.div>
+        </Reveal>
 
         {/* Next chapter teaser */}
         <div className="flex items-baseline gap-5 mt-8 pt-5 hairline-t">
-          <span className="font-display font-light text-[34px] leading-none text-ink-faint/40">
+          <span
+            aria-hidden="true"
+            className="font-display font-light text-[34px] leading-none text-ink-faint"
+          >
             04
           </span>
           <p className="font-display italic text-ink-faint text-[18px]">
@@ -306,7 +362,7 @@ export default function JourneyGallery() {
         {openChapter !== null && (
           <ChapterOverlay
             chapter={chapters[openChapter]}
-            onClose={() => setOpenChapter(null)}
+            onClose={closeDialog}
           />
         )}
       </AnimatePresence>
@@ -323,27 +379,29 @@ function ChapterCover({
   chapter: Chapter;
   isHovered: boolean;
   onHover: (hovering: boolean) => void;
-  onOpen: () => void;
+  onOpen: (opener: HTMLButtonElement) => void;
 }) {
   return (
     <button
+      type="button"
       onMouseEnter={() => onHover(true)}
       onMouseLeave={() => onHover(false)}
       onFocus={() => onHover(true)}
       onBlur={() => onHover(false)}
-      onClick={onOpen}
+      onClick={(e) => onOpen(e.currentTarget)}
       className="group relative w-full h-full overflow-hidden text-left bg-ink"
       aria-label={`Open Chapter ${chapter.num} — ${chapter.title}`}
     >
-      {/* eslint-disable-next-line @next/next/no-img-element */}
-      <img
+      <Image
         src={chapter.cover}
         alt=""
-        className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 ease-[cubic-bezier(0.23,1,0.32,1)] group-hover:scale-[1.04]"
-        loading="lazy"
+        fill
+        quality={75}
+        sizes="(max-width: 768px) 100vw, 45vw"
+        className="object-cover transition-transform duration-700 ease-[cubic-bezier(0.23,1,0.32,1)] group-hover:scale-[1.04]"
       />
       {/* Ink wash for legibility */}
-      <div className="absolute inset-0 bg-gradient-to-t from-ink/90 via-ink/30 to-ink/10" />
+      <div className="absolute inset-0 bg-gradient-to-t from-ink/90 via-ink/35 to-ink/10" />
       <div className="absolute top-0 left-0 right-0 kente-rule opacity-0 group-hover:opacity-100 transition-opacity duration-300" aria-hidden="true" />
 
       <div className="absolute inset-x-0 bottom-0 p-6 md:p-7">
@@ -354,13 +412,13 @@ function ChapterCover({
           {chapter.title}
         </h3>
         <p
-          className={`text-paper/70 italic text-[14px] leading-[1.6] max-w-[300px] transition-all duration-400 ${
-            isHovered ? "opacity-100 max-h-20" : "md:opacity-0 md:max-h-0 opacity-100"
+          className={`text-paper/85 italic text-[14px] leading-[1.6] max-w-[300px] transition-all duration-300 ${
+            isHovered ? "opacity-100 max-h-24 visible" : "md:invisible md:opacity-0 md:max-h-0 opacity-100"
           } overflow-hidden`}
         >
           {chapter.blurb}
         </p>
-        <p className="folio text-paper/60 mt-3 group-hover:text-paper transition-colors duration-200">
+        <p className="font-mono text-[14px] font-semibold uppercase tracking-[0.1em] text-paper/85 mt-3 group-hover:text-paper transition-colors duration-200">
           Enter chapter →
         </p>
       </div>
