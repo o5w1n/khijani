@@ -1,7 +1,8 @@
 "use client";
 
-import { useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { useState, useRef } from "react";
+import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
+import { Reveal } from "@/components/Reveal";
 
 type Level = "Beginner" | "Medium" | "Advanced";
 
@@ -68,8 +69,8 @@ const levels: Level[] = ["Beginner", "Medium", "Advanced"];
 
 const levelColor: Record<Level, string> = {
   Beginner: "text-green",
-  Medium: "text-gold-dark",
-  Advanced: "text-terra",
+  Medium: "text-gold-ink",
+  Advanced: "text-terra-ink",
 };
 
 const EASE: [number, number, number, number] = [0.23, 1, 0.32, 1];
@@ -97,11 +98,31 @@ function RedactedTitle({ seed }: { seed: number }) {
 export default function Conundrums() {
   const [activeLevel, setActiveLevel] = useState<Level>("Beginner");
   const [activeIdx, setActiveIdx] = useState<number | null>(null);
+  const reduced = useReducedMotion();
+  const tabRefs = useRef<(HTMLButtonElement | null)[]>([]);
 
   const selectLevel = (lvl: Level) => {
     setActiveLevel(lvl);
     setActiveIdx(null);
   };
+
+  function handleTabKeyDown(e: React.KeyboardEvent, idx: number) {
+    let nextIdx: number | null = null;
+    if (e.key === "ArrowDown" || e.key === "ArrowRight") {
+      nextIdx = (idx + 1) % levels.length;
+    } else if (e.key === "ArrowUp" || e.key === "ArrowLeft") {
+      nextIdx = (idx - 1 + levels.length) % levels.length;
+    } else if (e.key === "Home") {
+      nextIdx = 0;
+    } else if (e.key === "End") {
+      nextIdx = levels.length - 1;
+    }
+    if (nextIdx !== null) {
+      e.preventDefault();
+      selectLevel(levels[nextIdx]);
+      tabRefs.current[nextIdx]?.focus();
+    }
+  }
 
   return (
     <section id="conundrums" className="bg-paper-deep py-24 md:py-32">
@@ -109,12 +130,7 @@ export default function Conundrums() {
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-14 lg:gap-20">
           {/* Left — editorial sidebar, sticky on desktop */}
           <div className="lg:col-span-4 lg:sticky lg:top-28 lg:self-start">
-            <motion.div
-              initial={{ opacity: 0, y: 24 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-60px" }}
-              transition={{ duration: 0.65, ease: EASE }}
-            >
+            <Reveal margin="-60px">
               <p className="folio text-green mb-5">§ 2 — The Briefs</p>
               <h2
                 className="font-display font-bold text-ink leading-[1.05] text-balance mb-7"
@@ -124,26 +140,34 @@ export default function Conundrums() {
                 <span className="italic font-medium">Real stakes.</span>
               </h2>
               <div className="kente-rule w-16 mb-7" aria-hidden="true" />
-              <p className="text-ink-soft text-[16px] leading-[1.7] mb-12 max-w-[380px]">
+              <p className="text-ink-soft text-[16px] leading-[1.7] mb-10 max-w-[380px]">
                 Each conundrum is grounded in documented African realities —
-                water rights conflicts, energy access gaps, resource extraction
-                deals, and debt crises. No invented scenarios.
+                water rights, energy access, resource extraction, and debt
+                deals. Alongside the briefs, students play{" "}
+                <strong className="font-semibold text-ink">Cascade Games</strong>{" "}
+                to see how choices ripple over time.
               </p>
 
               {/* Level toggles */}
               <div className="hairline-t" role="tablist" aria-label="Brief difficulty level">
-                {levels.map((lvl) => {
+                {levels.map((lvl, idx) => {
                   const isActive = activeLevel === lvl;
                   return (
                     <button
                       key={lvl}
+                      ref={(el) => {
+                        tabRefs.current[idx] = el;
+                      }}
+                      type="button"
                       role="tab"
                       aria-selected={isActive}
+                      tabIndex={isActive ? 0 : -1}
                       onClick={() => selectLevel(lvl)}
-                      className="group w-full flex items-baseline justify-between py-4 hairline-b text-left"
+                      onKeyDown={(e) => handleTabKeyDown(e, idx)}
+                      className="group w-full flex min-h-[44px] items-center justify-between py-3 hairline-b text-left"
                     >
                       <span
-                        className={`folio transition-colors duration-200 ${
+                        className={`font-mono text-[14px] font-semibold uppercase tracking-[0.12em] transition-colors duration-200 ${
                           isActive
                             ? levelColor[lvl]
                             : "text-ink-faint group-hover:text-ink"
@@ -153,7 +177,9 @@ export default function Conundrums() {
                       </span>
                       <span
                         className={`font-display text-[15px] italic transition-opacity duration-200 ${
-                          isActive ? "text-ink opacity-100" : "opacity-0 group-hover:opacity-50"
+                          isActive
+                            ? "text-ink opacity-100"
+                            : "invisible opacity-0 text-ink-soft group-hover:visible group-hover:opacity-100"
                         }`}
                       >
                         {isActive ? "— in view" : "view"}
@@ -163,9 +189,9 @@ export default function Conundrums() {
                 })}
               </div>
               <p className="folio text-ink-faint mt-7">
-                Full briefs open in the classroom edition.
+                Full briefs &amp; Cascade Games open in the classroom edition.
               </p>
-            </motion.div>
+            </Reveal>
           </div>
 
           {/* Right — table-of-contents list */}
@@ -174,15 +200,16 @@ export default function Conundrums() {
               const inLevel = c.level === activeLevel;
               const isOpen = inLevel && activeIdx === i;
               return (
-                <motion.article
+                <Reveal
                   key={c.num}
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true, margin: "-30px" }}
-                  transition={{ duration: 0.55, delay: i * 0.06, ease: EASE }}
+                  y={20}
+                  duration={0.55}
+                  delay={i * 0.06}
+                  margin="-30px"
                   className="hairline-b"
                 >
                   <button
+                    type="button"
                     onClick={() =>
                       inLevel
                         ? setActiveIdx(isOpen ? null : i)
@@ -194,13 +221,11 @@ export default function Conundrums() {
                         ? undefined
                         : `Redacted ${c.level} brief — switch to ${c.level} level`
                     }
-                    className="group w-full text-left grid grid-cols-[auto_1fr_auto] items-baseline gap-x-5 md:gap-x-8 py-7"
+                    className="group w-full min-h-[48px] text-left grid grid-cols-[auto_1fr_auto] items-baseline gap-x-5 md:gap-x-8 py-7"
                   >
                     <span
-                      className={`font-display font-light text-[34px] md:text-[44px] leading-none transition-colors duration-300 ${
-                        inLevel
-                          ? "text-ink-faint group-hover:text-terra"
-                          : "text-ink-faint/40"
+                      className={`font-display font-light text-[34px] md:text-[44px] leading-none transition-colors duration-300 text-ink-faint ${
+                        inLevel ? "group-hover:text-terra-ink" : ""
                       }`}
                     >
                       {c.num}
@@ -224,13 +249,13 @@ export default function Conundrums() {
                         )}
                         <span
                           className={`folio ${
-                            inLevel ? levelColor[c.level] : "text-ink-faint/60"
+                            inLevel ? levelColor[c.level] : "text-ink-faint"
                           }`}
                         >
                           {c.level}
                         </span>
                         {!inLevel && (
-                          <span className="folio text-ink-faint/60 italic normal-case tracking-normal">
+                          <span className="text-[14px] text-ink-faint italic">
                             classified — select level to reveal
                           </span>
                         )}
@@ -238,11 +263,9 @@ export default function Conundrums() {
                     </span>
                     <span
                       className={`font-display text-2xl leading-none transition-transform duration-300 ${
-                        !inLevel
-                          ? "text-ink-faint/30"
-                          : isOpen
-                            ? "rotate-45 text-green"
-                            : "text-ink-faint group-hover:text-ink"
+                        isOpen
+                          ? "rotate-45 text-green"
+                          : "text-ink-soft group-hover:text-ink"
                       }`}
                       aria-hidden="true"
                     >
@@ -253,19 +276,19 @@ export default function Conundrums() {
                   <AnimatePresence initial={false}>
                     {isOpen && (
                       <motion.div
-                        initial={{ height: 0, opacity: 0 }}
+                        initial={reduced ? false : { height: 0, opacity: 0 }}
                         animate={{ height: "auto", opacity: 1 }}
-                        exit={{ height: 0, opacity: 0 }}
+                        exit={reduced ? undefined : { height: 0, opacity: 0 }}
                         transition={{ duration: 0.35, ease: EASE }}
                         className="overflow-hidden"
                       >
-                        <p className="dropcap text-ink-soft text-[16px] leading-[1.7] max-w-[580px] pb-8 pl-[58px] md:pl-[76px]">
+                        <p className="dropcap text-ink-soft text-[16px] leading-[1.7] max-w-[580px] pb-8 pl-0 sm:pl-[58px] md:pl-[76px]">
                           {c.teaser}
                         </p>
                       </motion.div>
                     )}
                   </AnimatePresence>
-                </motion.article>
+                </Reveal>
               );
             })}
           </div>

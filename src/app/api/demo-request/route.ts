@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { DEMO_ROLES, demoRequestSchema, type DemoRequest } from "@/lib/demo-request";
+import { CONTACT_EMAIL } from "@/lib/site";
 
 const WINDOW_MS = 10 * 60_000;
 const MAX_PER_WINDOW = 5;
@@ -86,7 +87,10 @@ async function notifyTeam(req: DemoRequest, resendKey: string, to: string): Prom
 export async function POST(request: NextRequest) {
   const ip = request.headers.get("x-forwarded-for")?.split(",")[0]?.trim() || "unknown";
   if (isRateLimited(ip)) {
-    return NextResponse.json({ error: "Too many requests. Please try again in a few minutes." }, { status: 429 });
+    return NextResponse.json(
+      { error: "Too many demo requests from your connection. Wait a few minutes and try again." },
+      { status: 429 }
+    );
   }
 
   const body: unknown = await request.json().catch(() => null);
@@ -95,13 +99,30 @@ export async function POST(request: NextRequest) {
     const honeypotTripped = parsed.error.issues.some((i) => i.path[0] === "company_website");
     // Pretend success to bots so they don't retry.
     if (honeypotTripped) return NextResponse.json({ ok: true });
-    return NextResponse.json({ error: parsed.error.issues[0]?.message ?? "Invalid request." }, { status: 400 });
+
+    const fieldErrors: Record<string, string> = {};
+    for (const issue of parsed.error.issues) {
+      const key = String(issue.path[0] ?? "");
+      if (key && !(key in fieldErrors)) {
+        fieldErrors[key] = issue.message;
+      }
+    }
+    return NextResponse.json(
+      {
+        error: parsed.error.issues[0]?.message ?? "Please review the highlighted fields below.",
+        fieldErrors,
+      },
+      { status: 400 }
+    );
   }
 
   const env = requiredEnv();
   if (!env) {
     console.error("[demo-request] missing SUPABASE_URL / SUPABASE_ANON_KEY / RESEND_API_KEY / DEMO_REQUEST_TO");
-    return NextResponse.json({ error: "Something went wrong. Please email us instead." }, { status: 500 });
+    return NextResponse.json(
+      { error: `We couldn't submit the form right now. Please email ${CONTACT_EMAIL} or message +233 53 537 8349 on WhatsApp.` },
+      { status: 500 }
+    );
   }
 
   const [saved, emailed] = await Promise.all([
@@ -117,7 +138,12 @@ export async function POST(request: NextRequest) {
 
   // One channel is enough for the team to see it; only fail if both are lost.
   if (!saved && !emailed) {
-    return NextResponse.json({ error: "Something went wrong. Please try again or message us on WhatsApp." }, { status: 502 });
+    return NextResponse.json(
+      {
+        error: `Could not deliver your request. Please try again, or reach us at ${CONTACT_EMAIL} or +233 53 537 8349 on WhatsApp.`,
+      },
+      { status: 502 }
+    );
   }
   return NextResponse.json({ ok: true });
 }

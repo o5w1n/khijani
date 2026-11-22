@@ -14,22 +14,22 @@ export default function LegalPage({ slug, kicker }: LegalPageProps) {
   const markdown = getLegalMarkdown(slug);
 
   return (
-    <main>
+    <>
       <Navbar />
-
-      <article className="bg-paper pt-28 md:pt-32 pb-24 md:pb-32">
-        <div className="max-w-[760px] mx-auto px-6 md:px-10">
-          <p className="folio text-green mb-6">{kicker}</p>
-          <div className="legal-prose">
-            <ReactMarkdown remarkPlugins={[remarkGfm]} components={markdownComponents}>
-              {markdown}
-            </ReactMarkdown>
+      <main id="main-content">
+        <article className="bg-paper pt-28 md:pt-32 pb-24 md:pb-32">
+          <div className="max-w-[760px] mx-auto px-6 md:px-10">
+            <p className="folio text-green mb-6">{kicker}</p>
+            <div className="legal-prose">
+              <ReactMarkdown remarkPlugins={[remarkGfm]} components={markdownComponents}>
+                {markdown}
+              </ReactMarkdown>
+            </div>
           </div>
-        </div>
-      </article>
-
+        </article>
+      </main>
       <Footer />
-    </main>
+    </>
   );
 }
 
@@ -105,7 +105,7 @@ const markdownComponents = {
     <td className="py-3 pr-4 align-top hairline-b leading-[1.6]">{children}</td>
   ),
   code: ({ children }: { children?: ReactNode }) => (
-    <code className="font-mono text-[0.85em] bg-paper-deep px-1.5 py-0.5 rounded text-terra">
+    <code className="font-mono text-[0.875em] bg-paper-deep px-1.5 py-0.5 rounded text-terra-ink">
       {children}
     </code>
   ),

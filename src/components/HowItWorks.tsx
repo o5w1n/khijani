@@ -1,6 +1,8 @@
 "use client";
 
-import { motion } from "framer-motion";
+import type { CSSProperties } from "react";
+import { motion, useReducedMotion } from "framer-motion";
+import { Reveal } from "@/components/Reveal";
 
 const phases = [
   {
@@ -25,29 +27,30 @@ const phases = [
     num: "04",
     title: "Reflect on Your Thinking",
     description:
-      "A guided reflection asks students what they changed, what they stood firm on, and what evidence moved them. This is where critical thinking becomes a habit.",
+      "A guided reflection asks students what they changed, what they stood firm on, and what evidence moved them — before building on those habits in Cascade Games.",
   },
 ];
 
 const indexDimensions = [
-  { label: "Decision Quality", score: 30, fill: 82 },
-  { label: "Perspective Breadth", score: 25, fill: 68 },
-  { label: "Adaptability", score: 25, fill: 74 },
-  { label: "Reflection Depth", score: 20, fill: 91 },
+  { label: "Reasoning Quality", score: 20, fill: 85 },
+  { label: "Evidence Use", score: 15, fill: 80 },
+  { label: "Systems Thinking", score: 20, fill: 75 },
+  { label: "Adaptability", score: 15, fill: 72 },
+  { label: "Reflection", score: 20, fill: 90 },
+  { label: "Perspective", score: 10, fill: 78 },
 ];
 
 const EASE: [number, number, number, number] = [0.23, 1, 0.32, 1];
 
 export default function HowItWorks() {
+  const reduced = useReducedMotion();
+
   return (
     <section id="how-it-works" className="bg-paper py-24 md:py-32">
       <div className="max-w-[1280px] mx-auto px-6 md:px-10">
         {/* Department header */}
-        <motion.div
-          initial={{ opacity: 0, y: 24 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-60px" }}
-          transition={{ duration: 0.65, ease: EASE }}
+        <Reveal
+          margin="-60px"
           className="flex items-end justify-between gap-6 pb-6 hairline-b mb-2"
         >
           <div>
@@ -62,20 +65,19 @@ export default function HowItWorks() {
           <span className="folio text-ink-faint hidden md:block shrink-0 pb-2">
             25–45 min per session
           </span>
-        </motion.div>
+        </Reveal>
 
         {/* Phase ledger rows */}
         <div>
           {phases.map((phase, i) => (
-            <motion.div
+            <Reveal
               key={phase.num}
-              initial={{ opacity: 0, y: 24 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-40px" }}
-              transition={{ duration: 0.6, delay: i * 0.08, ease: EASE }}
+              duration={0.6}
+              delay={i * 0.08}
               className="group grid grid-cols-[auto_1fr] md:grid-cols-12 gap-x-6 md:gap-x-10 py-9 hairline-b items-start"
             >
-              <span className="md:col-span-2 font-display font-light text-terra leading-[0.8] tracking-tight transition-colors duration-300 group-hover:text-green"
+              <span
+                className="md:col-span-2 font-display font-light text-terra-ink leading-[0.8] tracking-tight transition-colors duration-300 group-hover:text-green"
                 style={{ fontSize: "clamp(48px, 6vw, 84px)" }}
               >
                 {phase.num}
@@ -86,16 +88,14 @@ export default function HowItWorks() {
               <p className="col-span-2 md:col-span-6 text-ink-soft text-[16px] leading-[1.7] pt-1 max-w-[560px]">
                 {phase.description}
               </p>
-            </motion.div>
+            </Reveal>
           ))}
         </div>
 
         {/* Khijani Index — ink ledger panel */}
-        <motion.div
-          initial={{ opacity: 0, y: 32 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-40px" }}
-          transition={{ duration: 0.7, ease: EASE }}
+        <Reveal
+          y={32}
+          duration={0.7}
           className="relative bg-green-deep mt-16 overflow-hidden"
         >
           <div className="kente-rule" aria-hidden="true" />
@@ -112,29 +112,31 @@ export default function HowItWorks() {
                 <span className="italic">how</span> you think — not what you
                 know.
               </h3>
-              <p className="text-paper/65 text-[16px] leading-[1.7] max-w-md">
-                The Khijani Index evaluates four dimensions of reasoning
-                quality. Students see their own growth over time. Teachers see
-                class-wide patterns. No right answers — only better thinking.
+              <p className="text-paper/85 text-[16px] leading-[1.7] max-w-md">
+                Across conundrums and Cascade Games, the Khijani Index evaluates
+                six dimensions of critical thinking. Students see their own
+                growth over time; teachers see class-wide patterns.
               </p>
             </div>
 
             {/* Right: score bars */}
-            <div className="px-8 py-12 lg:px-14 lg:py-16 flex flex-col justify-center gap-6 lg:border-l border-paper/10">
+            <div className="px-8 py-12 lg:px-14 lg:py-16 flex flex-col justify-center gap-5 lg:border-l border-paper/15">
               {indexDimensions.map((dim, i) => (
                 <div key={dim.label}>
                   <div className="flex items-baseline justify-between mb-2">
-                    <span className="font-display text-[16px] text-paper/90 italic">
+                    <span className="font-display text-[16px] text-paper/95 italic">
                       {dim.label}
                     </span>
-                    <span className="folio text-paper/40">/{dim.score}</span>
+                    <span className="folio text-paper/75">/{dim.score}</span>
                   </div>
-                  <div className="h-[3px] bg-paper/10 overflow-hidden">
+                  <div className="h-[3px] bg-paper/15 overflow-hidden">
                     <motion.div
-                      initial={{ width: 0 }}
+                      data-motion-bar=""
+                      style={{ "--bar-fill": `${dim.fill}%`, width: `${dim.fill}%` } as CSSProperties}
+                      initial={reduced ? false : { width: 0 }}
                       whileInView={{ width: `${dim.fill}%` }}
                       viewport={{ once: true }}
-                      transition={{ duration: 1, delay: i * 0.12, ease: EASE }}
+                      transition={{ duration: 1, delay: i * 0.1, ease: EASE }}
                       className="h-full bg-gold"
                     />
                   </div>
@@ -142,7 +144,7 @@ export default function HowItWorks() {
               ))}
             </div>
           </div>
-        </motion.div>
+        </Reveal>
       </div>
     </section>
   );
